@@ -1,10 +1,9 @@
-from flask import Flask, render_template, jsonify, send_from_directory
+from flask import Flask, render_template, jsonify, request
 import json
 import os
 
 app = Flask(__name__)
 
-# Đường dẫn file dữ liệu
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 QUESTIONS_FILE = os.path.join(BASE_DIR, "questions.json")
 
@@ -23,16 +22,13 @@ def load_questions():
 
 @app.route("/")
 def home():
-    """Trang chính — trả về giao diện quiz"""
     return render_template("index.html")
 
 
 @app.route("/api/questions")
 def api_questions():
-    """API trả về danh sách câu hỏi dạng JSON"""
+    """API trả câu hỏi (ẩn đáp án đúng)"""
     data = load_questions()
-
-    # Ẩn đáp án đúng khi gửi xuống client (chống xem trộm)
     safe_questions = []
     for q in data.get("cauHoi", []):
         safe_questions.append({
@@ -41,7 +37,6 @@ def api_questions():
             "cauHoi": q.get("cauHoi"),
             "dapAn": q.get("dapAn", []) if q.get("loai") == "tracNghiem" else []
         })
-
     return jsonify({
         "tieuDe": data.get("tieuDe", "Đố Vui Lớp 6A8"),
         "moTa": data.get("moTa", ""),
@@ -51,9 +46,7 @@ def api_questions():
 
 @app.route("/api/check", methods=["POST"])
 def api_check():
-    """API kiểm tra đáp án — nhận id câu hỏi + câu trả lời, trả về đúng/sai"""
-    from flask import request
-
+    """API kiểm tra đáp án"""
     body = request.get_json(silent=True) or {}
     qid = body.get("id")
     answer = body.get("answer")
@@ -90,18 +83,11 @@ def api_check():
     return jsonify({"correct": False, "giaiThich": giaiThich})
 
 
-@app.route("/students.json")
-def students_json():
-    """Cho phép truy cập students.json nếu có (dùng cho trang xác minh cũ)"""
-    return send_from_directory(BASE_DIR, "students.json")
-
-
 @app.errorhandler(404)
 def not_found(e):
     return jsonify({"error": "Không tìm thấy trang"}), 404
 
 
 if __name__ == "__main__":
-    # Chạy local: python app.py
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
