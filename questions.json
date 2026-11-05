@@ -1,0 +1,44 @@
+{
+  "tieuDe": "Đố Vui Lớp 6A8",
+  "moTa": "Bạn hiểu lớp mình đến đâu? Cùng chơi nào!",
+  "cauHoi": [
+    {
+      "id": 1,
+      "loai": "tracNghiem",
+      "cauHoi": "Ai là lớp trưởng lớp 6A8?",
+      "dapAn": ["Gia An"],
+      "dapAnDung": 0,
+      "giaiThich": "Gia An là lốp trưởng."
+    },
+    {
+      "id": 2,
+      "loai": "tracNghiem",
+      "cauHoi": "Dương có tên gọi khác là gì?",
+      "dapAn": ["Dương Gió Tai", "Haruto", "Dươn", "Như Nhó Nhai"],
+      "dapAnDung": 0,
+      "giaiThich": "Dương còn được gọi là Như Nhó Nhai."
+    },
+    {
+      "id": 3,
+      "loai": "tracNghiem",
+      "cauHoi": "Khuê thích nhất môn gì?",
+      "dapAn": ["Toán", "Văn", "Tiếng Anh", "Âm nhạc"],
+      "dapAnDung": 0,
+      "giaiThich": "Khuê thích nhất môn Tiếng Trung."
+    },
+    {
+      "id": 4,
+      "loai": "tuLuan",
+      "cauHoi": "Viết tên đầy đủ của lớp phó lớp 6A8?",
+      "dapAnDung": ["Nguyễn Đức bảo Châu"],
+      "giaiThich": "Lớp phó là bạn Nguyễn Đức Bảo Châu."
+    },
+    {
+      "id": 5,
+      "loai": "tuLuan",
+      "cauHoi": "Tên gọi khác của bạn Hùng là gì?",
+      "dapAnDung": ["Hèo", "Hèo Dưa Lung"],
+      "giaiThich": "Hèo dưa lung"
+    }
+  ]
+}
