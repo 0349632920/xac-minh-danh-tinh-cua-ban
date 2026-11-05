@@ -14,31 +14,31 @@
       "id": 2,
       "loai": "tracNghiem",
       "cauHoi": "Dương có tên gọi khác là gì?",
-      "dapAn": ["Dương Ngọc", "Dương Nhi", "Dương Dương", "Ngọc Dương"],
+      "dapAn": ["Dương Gió Tai", "Dương"],
       "dapAnDung": 0,
-      "giaiThich": "Dương còn được gọi là Dương Ngọc 😄 👉 SỬA nếu cần"
+      "giaiThich": "Dương còn được gọi là Dương Gió Tai."
     },
     {
       "id": 3,
       "loai": "tracNghiem",
       "cauHoi": "Khuê giỏi nhất môn gì?",
-      "dapAn": ["Toán", "Văn", "Tiếng Anh", "Âm nhạc"],
-      "dapAnDung": 0,
-      "giaiThich": "Khuê giỏi nhất môn Toán 📐 👉 SỬA nếu cần"
+      "dapAn": ["Toán", "Tiếng Trung", "Tiếng Anh", "Âm nhạc"],
+      "dapAnDung": 1,
+      "giaiThich": "Khuê giỏi nhất môn Tiếng Trung. "
     },
     {
       "id": 4,
       "loai": "tuLuan",
-      "cauHoi": "Viết tên đầy đủ của lớp trưởng lớp 6A8?",
-      "dapAnDung": ["Gia An", "Nguyễn Gia An", "Trần Gia An"],
-      "giaiThich": "Lớp trưởng là bạn Gia An."
+      "cauHoi": "Viết tên đầy đủ của lớp phó lớp 6A8?",
+      "dapAnDung": ["Nguyễn Đức Bảo Châu"],
+      "giaiThich": "Lớp phó là bạn Châu."
     },
     {
       "id": 5,
       "loai": "tuLuan",
-      "cauHoi": "Tên gọi khác của bạn Dương là gì?",
-      "dapAnDung": ["Dương Ngọc", "Duong Ngoc"],
-      "giaiThich": "Dương còn gọi là Dương Ngọc 👉 SỬA nếu cần"
+      "cauHoi": "Tên cô giáo chủ nghiệm lớp 6A8 là ai?",
+      "dapAnDung": ["Trang"],
+      "giaiThich": "là cô Trang"
     }
   ]
 }
