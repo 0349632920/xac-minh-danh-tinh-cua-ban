@@ -6,7 +6,7 @@
       "id": 1,
       "loai": "tracNghiem",
       "cauHoi": "Ai là lớp trưởng lớp 6A8?",
-      "dapAn": ["Gia An"],
+      "dapAn": ["Gia An, Nguyễn Đức Bảo Châu, Khuê"],
       "dapAnDung": 0,
       "giaiThich": "Gia An là lốp trưởng."
     },
@@ -30,7 +30,7 @@
       "id": 4,
       "loai": "tuLuan",
       "cauHoi": "Viết tên đầy đủ của lớp phó lớp 6A8?",
-      "dapAnDung": ["Nguyễn Đức bảo Châu"],
+      "dapAnDung": ["Nguyễn Đức bảo Châu, Gia An, Khuê"],
       "giaiThich": "Lớp phó là bạn Nguyễn Đức Bảo Châu."
     },
     {
