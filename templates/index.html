@@ -105,6 +105,17 @@
     }
     .result-screen .msg { color: #666; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
 
+    .locked-screen { text-align: center; display: none; }
+    .locked-screen .lock-emoji { font-size: 80px; margin-bottom: 15px; }
+    .locked-screen h2 { color: #c62828; font-size: 24px; margin-bottom: 15px; }
+    .locked-screen p { color: #666; font-size: 15px; line-height: 1.6; margin-bottom: 10px; }
+    .locked-screen .final-score {
+      display: inline-block;
+      background: #fff3e0; color: #e65100;
+      padding: 15px 30px; border-radius: 14px;
+      font-size: 28px; font-weight: 800; margin: 15px 0;
+    }
+
     @media (max-width: 480px) {
       .container { padding: 25px 20px; }
       .question { font-size: 16px; }
@@ -114,7 +125,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Màn hình chào -->
     <div id="startScreen">
       <div class="header">
         <span class="emoji">🎯</span>
@@ -124,7 +134,6 @@
       <button class="btn" onclick="startQuiz()">🚀 Bắt Đầu Chơi</button>
     </div>
 
-    <!-- Màn hình câu hỏi -->
     <div id="quizScreen" style="display:none;">
       <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
@@ -138,12 +147,19 @@
       </button>
     </div>
 
-    <!-- Màn hình kết quả (đã xóa nút Chơi Lại) -->
     <div id="resultScreen" class="result-screen">
       <div class="big-emoji" id="resultEmoji">🏆</div>
       <h2 id="resultTitle">Hoàn Thành!</h2>
       <div class="score" id="scoreText">0 / 0</div>
       <p class="msg" id="resultMsg"></p>
+    </div>
+
+    <div id="lockedScreen" class="locked-screen">
+      <div class="lock-emoji">🔒</div>
+      <h2>Bạn Đã Chơi Rồi!</h2>
+      <div class="final-score" id="lockedScore">0 / 0</div>
+      <p>Mỗi người chỉ được chơi <b>1 lần duy nhất</b>.</p>
+      <p>Thiết bị/mạng của bạn đã được ghi nhận.</p>
     </div>
   </div>
 
@@ -152,14 +168,34 @@
     let current = 0;
     let score = 0;
     let answered = false;
+    let daHoanThanh = false;
+
+    async function checkStatus() {
+      try {
+        const res = await fetch('/api/trang-thai');
+        const data = await res.json();
+        if (data.daHoanThanh) {
+          showLocked(data.diem, data.tongSo);
+          return;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+      await loadQuiz();
+    }
+    window.addEventListener('DOMContentLoaded', checkStatus);
 
     async function loadQuiz() {
       try {
         const res = await fetch('/api/questions');
+        if (res.status === 403) {
+          const data = await res.json();
+          showLocked(data.diem || 0, data.tongSo || 0);
+          return;
+        }
         if (!res.ok) throw new Error('API lỗi');
         const data = await res.json();
         questions = data.cauHoi;
-
         if (data.tieuDe) document.getElementById('startTitle').textContent = data.tieuDe;
         if (data.moTa)   document.getElementById('startDesc').textContent = data.moTa;
       } catch (err) {
@@ -167,9 +203,18 @@
         console.error(err);
       }
     }
-    window.addEventListener('DOMContentLoaded', loadQuiz);
+
+    function showLocked(diem, tong) {
+      daHoanThanh = true;
+      document.getElementById('startScreen').style.display = 'none';
+      document.getElementById('quizScreen').style.display = 'none';
+      document.getElementById('resultScreen').style.display = 'none';
+      document.getElementById('lockedScreen').style.display = 'block';
+      document.getElementById('lockedScore').textContent = `${diem} / ${tong}`;
+    }
 
     function startQuiz() {
+      if (daHoanThanh) return;
       if (questions.length === 0) { alert('Đang tải câu hỏi...'); return; }
       current = 0; score = 0;
       document.getElementById('startScreen').style.display = 'none';
@@ -226,7 +271,7 @@
     }
 
     async function submitAnswer(payload) {
-      if (answered) return;
+      if (answered || daHoanThanh) return;
       const q = questions[current];
 
       if (payload.choice !== undefined) {
@@ -238,6 +283,7 @@
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ id: q.id, answer: payload.choice })
         });
+        if (res.status === 403) { showLocked(score, questions.length); return; }
         const data = await res.json();
         if (data.correct) {
           payload.el.classList.add('correct');
@@ -260,6 +306,7 @@
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ id: q.id, answer: val })
         });
+        if (res.status === 403) { showLocked(score, questions.length); return; }
         const data = await res.json();
         if (data.correct) { score++; showFeedback(true, data.giaiThich); }
         else              { showFeedback(false, data.giaiThich); }
@@ -285,9 +332,21 @@
         ? '🏁 Xem Kết Quả' : 'Câu Tiếp Theo →';
     }
 
-    function nextQuestion() {
-      if (current < questions.length - 1) { current++; renderQuestion(); }
-      else showResult();
+    async function nextQuestion() {
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else {
+        await finishQuiz();
+      }
+    }
+
+    async function finishQuiz() {
+      try {
+        await fetch('/api/hoan-thanh', { method: 'POST' });
+      } catch (err) { console.error(err); }
+      daHoanThanh = true;
+      showResult();
     }
 
     function showResult() {
