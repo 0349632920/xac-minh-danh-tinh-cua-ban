@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Xác minh danh tính của bạn là học sinh lớp 6A8.</title>
+  <title>Đố Vui Lớp 6A8</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box;
         font-family: 'Segoe UI', Tahoma, sans-serif; }
@@ -114,15 +114,17 @@
 </head>
 <body>
   <div class="container">
+    <!-- Màn hình chào -->
     <div id="startScreen">
       <div class="header">
         <span class="emoji">🎯</span>
-        <h1 id="startTitle">Xác minh ngay!</h1>
-        <p id="startDesc">Bạn hiểu lớp mình đến đâu?</p>
+        <h1 id="startTitle">Đố Vui Lớp 6A8</h1>
+        <p id="startDesc">Bạn hiểu lớp mình đến đâu? Cùng chơi nào!</p>
       </div>
-      <button class="btn" onclick="startQuiz()">🚀 Bắt Đầu Xác Minh</button>
+      <button class="btn" onclick="startQuiz()">🚀 Bắt Đầu Chơi</button>
     </div>
 
+    <!-- Màn hình câu hỏi -->
     <div id="quizScreen" style="display:none;">
       <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
@@ -136,12 +138,12 @@
       </button>
     </div>
 
+    <!-- Màn hình kết quả (đã xóa nút Chơi Lại) -->
     <div id="resultScreen" class="result-screen">
       <div class="big-emoji" id="resultEmoji">🏆</div>
       <h2 id="resultTitle">Hoàn Thành!</h2>
       <div class="score" id="scoreText">0 / 0</div>
       <p class="msg" id="resultMsg"></p>
-      <button class="btn" onclick="restartQuiz()">🔄 Chơi Lại</button>
     </div>
   </div>
 
@@ -297,19 +299,14 @@
       document.getElementById('scoreText').textContent = `${score} / ${total}`;
 
       let emoji, title, msg;
-      if (percent === 100)      { emoji = '🏆'; title = 'Xuất Sắc!';     msg = 'Bạn đúng tất cả! Quá đỉnh!'; }
-      else if (percent >= 80)   { emoji = '🌟'; title = 'Rất Giỏi!';     msg = 'Bạn hiểu lớp mình rất rõ đấy!'; }
-      else if (percent >= 50)   { emoji = '👍'; title = 'Khá Lắm!';      msg = 'Cũng ổn rồi, cố gắng thêm nhé!'; }
-      else                      { emoji = '😅'; title = 'Cần Cố Gắng!';  msg = 'Thử lại xem sao nhé!'; }
+      if (percent === 100)      { emoji = '🏆'; title = 'Xuất Sắc!';    msg = 'Bạn đúng tất cả! Quá đỉnh!'; }
+      else if (percent >= 80)   { emoji = '🌟'; title = 'Rất Giỏi!';    msg = 'Bạn hiểu lớp mình rất rõ đấy!'; }
+      else if (percent >= 50)   { emoji = '👍'; title = 'Khá Lắm!';     msg = 'Cũng ổn rồi, cố gắng thêm nhé!'; }
+      else                      { emoji = '😅'; title = 'Cần Cố Gắng!'; msg = 'Thử lại xem sao nhé!'; }
 
       document.getElementById('resultEmoji').textContent = emoji;
       document.getElementById('resultTitle').textContent = title;
       document.getElementById('resultMsg').textContent = msg;
-    }
-
-    function restartQuiz() {
-      document.getElementById('resultScreen').style.display = 'none';
-      document.getElementById('startScreen').style.display = 'block';
     }
   </script>
 </body>
