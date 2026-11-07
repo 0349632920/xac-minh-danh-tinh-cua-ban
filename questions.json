@@ -37,7 +37,7 @@
       "id": 5,
       "loai": "tuLuan",
       "cauHoi": "Tên cô giáo chủ nghiệm lớp 6A8 là ai?",
-      "dapAnDung": ["Trang"],
+      "dapAnDung": ["Trang", "Cô Trang"],
       "giaiThich": "là cô Trang"
     }
   ]
